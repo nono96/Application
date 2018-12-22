@@ -29,7 +29,7 @@ public class DataAccess implements AutoCloseable {
   public boolean initDataStore(int NumeroParticipant)
       throws DataAccessException {
     String sql = null;
-     try {
+    try {
       // drop existing tables, if any
       Statement statement = connection.createStatement();
      try {
@@ -37,7 +37,7 @@ public class DataAccess implements AutoCloseable {
          statement.executeUpdate("DROP TABLE QUESTIONNAIRE  ;");
          statement.executeUpdate("DROP TABLE REPPHOTOS;");
          
-         statement.executeUpdate("DROP TABLE DONNEESBCI;");
+         statement.executeUpdate("DROP TABLE DONNEES_BCI;");
       } catch (SQLException e) {
         // likely cause: table does not exists: print error and go on
         System.err.print("drop table PARTICIPANT, Donnees bci, Questionnaire et Repphotos: " + e);
@@ -53,7 +53,7 @@ public class DataAccess implements AutoCloseable {
       sql = "CREATE TABLE QUESTIONNAIRE(ID INT UNSIGNED PRIMARY KEY  REFERENCES PARTICIPANT(ID), "
               + "AGE INT UNSIGNED NOT NULL, SEXE BOOLEAN NOT NULL, DESIR varchar(100));";
       statement.executeUpdate(sql);
-  sql="CREATE TABLE DONNEESBCI (ID INT UNSIGNED PRIMARY KEY  REFERENCES PARTICIPANT(ID), CHEMIN varchar(100))";
+  sql="CREATE TABLE DONNEES_BCI (ID INT UNSIGNED PRIMARY KEY  REFERENCES PARTICIPANT(ID), CHEMIN varchar(100))";
   statement.executeUpdate(sql); 
   // ...
       // populate tables if needed
