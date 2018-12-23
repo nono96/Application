@@ -8,7 +8,8 @@ package model;
 import java.io.File;
 import java.util.Calendar;
 import java.util.LinkedList;
-
+import model.DataAccess;
+import model.PPE;
 /**
  *
  * @author Alexandre
@@ -21,7 +22,7 @@ public class Utilisateur{
     File fichier_bci;
     int idrep;
     
-    public Utilisateur(){
+    public Utilisateur(DataAccess D){
         RepQuestionnaire = new LinkedList();
         img_test = new LinkedList();
         test = "";
@@ -31,7 +32,7 @@ public class Utilisateur{
                 cal.get(Calendar.HOUR)*rand() + cal.get(Calendar.MINUTE)*rand() + cal.get(Calendar.SECOND)*rand() + rand());
     }
     //Sauvegarder les données
-    public void sauvegarder_donnee(Test t){
+    public void sauvegarder_donnee(Test t, DataAccess D){
         img_test=t.list_img;
         idrep = img_test.hashCode();
         File dossier = new File("C:"+File.separator+ "Program Files" + File.separator + "OpenBCI_GUI" + File.separator +"SavedData");
@@ -56,7 +57,7 @@ public class Utilisateur{
             // a 4 tquestions au minimum, !!! Blinder le Questionnaire, sinon bug ? !!!
             //Aussi: On peut cocher plusieurs "Désirs" donc 2 ème boucle normalement :)
             pref += RepQuestionnaire.get(i) + " and \n ";
-        
+        D.newParticipant(D);
         String request1 = "INSERT INTO PARTICIPANT VALUES( " + String.valueOf(id)+","+idrep+")";
         String request2 = "INSERT INTO REPPHOTOS VALUES ( " + String.valueOf(idrep) + "," + list_image+")";
         String request3 = "INSERT INTO QUESTIONNAIRE VALUES ( "+pref+")" ;
@@ -65,7 +66,7 @@ public class Utilisateur{
     }
     
     private int rand(){
-        return (int) (Math.random()*1000);
+        return (int) (Math.random()*(1000-1));
     }
 
     public void repondre_questionnaire(LinkedList rep) {

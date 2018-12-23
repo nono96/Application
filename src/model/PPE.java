@@ -34,7 +34,7 @@ public class PPE {
     DataAccess dao = new DataAccess(args[0], args[1], args[2]);
     System.out.println("\rconnected to " + args[0]);
         dao.initDataStore(0);
-        Fenetre f = new Fenetre();
+        Fenetre f = new Fenetre(dao);
     }
     
 }
